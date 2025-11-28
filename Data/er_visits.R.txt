@@ -1,0 +1,29 @@
+library(rjags)
+er_visits <- c(48,52,50,55,47,49,68,51,46,54,48,45,50,70)
+n <- length(er_visits)
+
+model_string <- "
+model {
+  # Likelihood
+  for (i in 1:n){
+    y[i] ~ dpois(lambda)
+  }
+   
+  # Prior
+  lambda ~ dgamma(10, 0.2)
+}
+"
+
+data_list <- list(y = er_visits, n=n)
+
+model <- jags.model(
+  textConnection(model_string),
+  data_list,
+  n.chains = 3,
+  n.adapt = 1000
+)
+
+update(model, 1000)
+mcmc_samples <- coda.samples(model,
+                             variable.names = c("lambda"), n.iter = 5000)
+

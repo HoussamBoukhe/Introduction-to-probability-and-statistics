@@ -1,0 +1,271 @@
+\documentclass[11pt,a4paper]{article}
+
+\textwidth=16cm
+\textheight=24.5cm
+\oddsidemargin0cm
+\topmargin-1cm
+\parindent0cm
+\parskip0ex
+%\linespread{1.2}
+
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\setlength{\bibsep}{0pt}
+\newcommand{\biblist}{
+\bibliographystyle{apalike}
+\bibliography{BiblioRA}
+}
+
+\newcommand{\Prob}{\mathrm{P}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cor}{\mathrm{Corr}}
+
+
+\newcommand{\bds}{\boldsymbol}
+
+\usepackage{times}
+
+\usepackage[english]{babel} %on pourrait ausi utiliser [english] \usepackage{latexSym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[dvips]{graphicx}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{overpic}
+\usepackage{rotating}
+\usepackage{here}
+\usepackage{txfonts}
+\usepackage{color}
+\usepackage{url}
+
+%\usepackage{geometry} %destroys the textwidth commands
+\usepackage{tikz}
+
+
+\newtheorem{proof}{proof}
+%\newcommand{\bpre}{\begin{proof}}
+%\newcommand{\epre}{\end{proof}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{\bf Remark}[section]
+\newtheorem{algorithm}{\bf Algorithm}[section]
+\newtheorem{program}{Program}[section]
+\newtheorem{note}{\bf Note}
+\newenvironment{example1}[1][ ]{\begin{example}[#1]\em}{\qed\end{example}}
+\newenvironment{remark1}[1][ ]{\begin{remark}[#1]\em}{\end{remark}}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\eqd}{\stackrel{d}{=}}
+\newcommand{\law}{\mathcal{L}}
+\newcommand{\rmd}{\mathrm{d}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\1}{\boldsymbol{1}}
+
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\mbN}{\mathbb{N}}
+\newcommand{\mbZ}{\mathbb{Z}}
+
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\argmin}{\mathop{\mathrm{arg\,min}}}
+
+\newcommand{\dto}{\rightsquigarrow}
+\newcommand{\pto}{\stackrel{\mathrm{P}}{\to}}
+
+\newcommand{\bX}{\overline{X}}
+\newcommand{\bXX}{\overline{X^2}}
+\newcommand{\bY}{\overline{X}}
+\newcommand{\bYY}{\overline{X^2}}
+\newcommand{\bXY}{\overline{XY}}
+
+
+\def\Prodi{\mathop{{\lower 3pt\hbox{\epsfxsize=15pt\epsfbox{pi.ps}}}}}
+\def\prodi{\mathop{{\lower 1pt\hbox{\epsfxsize=8pt\epsfbox{pi.ps}}}}}
+\input epsf.sty
+\newcommand{\CAL}[1]{\mathcal{#1}}
+\newcommand{\si}{\mbox{$\sigma$}}
+\newcommand{\epsi}{\mbox{$\varepsilon$}}
+\newcommand{\sisq}{\mbox{$\sigma^2$}}
+\newcommand{\al}{\mbox{$\alpha$}}
+\newcommand{\be}{\mbox{$\beta$}}
+\newcommand{\vfi}{\mbox{$\varphi$}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\p}{\mbox{$\mathcal{P}$}}
+\newcommand{\Q}{\mbox{$\mathcal{Q}$}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beas}{\begin{eqnarray*}}
+\newcommand{\eeas}{\end{eqnarray*}}
+\newcommand{\ind}{1\hspace{-2.5mm}{1}}
+\newcommand{\BB}[1]{\mathbb{#1}}
+\newcommand{\noi}{\noindent}
+
+\def\tcr{\textcolor{red}}
+
+\usepackage[printsolution=false]{exercises}
+
+\begin{document}
+
+\begin{center}
+\huge Probability and statistics.   \\
+\large Master in Cognitive Science. Academic year 2025-2026.\\
+\large Example sheet 3.
+\end{center}
+
+%#################################################################################
+
+
+
+\begin{exercise}
+On a farm there are four ducks, four geese and two hens. During the night, two wolves arrive. Each wolf catches one bird at random. Let us denote as:
+\bit
+\item $X =$ the number of ducks caught,
+\item $Y =$ the number of geese caught.
+\eit 
+
+\begin{enumerate}
+\item Determine the distribution of the random variable $X$.
+\item Determine the distribution of $Y$.
+\item Determine the joint distribution of the random variables $X$ and $Y$.
+\item Determine the marginal distribution of $X$ and $Y$ from their joint distribution.
+\item Compute the probability for the event that the number of ducks caught equals the number of geese caught.
+\item Are the random variables $X$ and $Y$ dependent?
+\end{enumerate}
+\end{exercise}
+
+
+%#################################################################################
+
+\begin{exercise}
+Ursula and Vera have agreed to meet for lunch exactly at noon $(12:00)$. However, Ursula arrives $U$ minutes late, and Vera arrives $V$ minutes late. We assume their arrival times are independent, and both are uniformly distributed over the interval $[0,60]$.
+\begin{enumerate}
+\item Write down the density functions $f_U$ and $f_V$ , and the joint density function $f_{U,V}$.
+Start from the individual densities and then deduce the joint density.
+\item Calculate the probability that Ursula arrives before $12:20$.
+Use the distribution of $U$ only.
+\item Find geometrically the probability that Ursula arrives before $12:15$ and Vera arrives between
+$12:30$ and $12:45$.
+%Color the relevant rectangle in the square $[0, 60] \times [0, 60]$. Calculate the area of this rectangle.
+%Recall the joint density and apply the basic fact from multivariate calculus.
+\item Calculate the probability in (3) again, without resorting to geometry, from the probabilities
+of the individual events $\left\{f_U < 15\right\}$ and $\left\{30<f_V < 45\right\}$. Exploit the independence of $U$  and $V$.
+\item Find geometrically the probability that Ursula arrives at least $30$ minutes after Vera.
+Try fixing a value of $V$, and think what must $U$ then be for the event to occur. After you have
+found and drawn the region, calculate its area. Recall the area of a triangle.
+\end{enumerate}
+
+\noi Remark: the integral of a constant function over a region equals that constant times the area of the region. 
+\end{exercise}
+
+%#################################################################################
+
+\begin{exercise}
+\noi Back to the survey sampling exercise. We studied in class Bayesian inference on a proportion using a discrete uniform prior. Now, using the continuous version 
+of Bayes theorem, compute the posterior distribution of the proportion using a Beta prior with parameters $\alpha,\beta$. Consider two cases: $\alpha=\beta=1$ 
+and $\alpha=1,\beta=50$. Use R to get the $0.025$ and $0.975$ quantiles of the posterior distribution in both cases. Interpret your results.\\
+
+\noi Consider now two binomial experiments having the same probability of success $\theta$. Write down the Jags model to provide inference on $\theta$ using a uniform continuous prior. Use sample sizes $(n_1=15, \ n_2 = 12)$ and observed successes $(y_1=5, \ y_2 = 6)$.
+\end{exercise}
+
+\begin{solution}
+.
+\end{solution}
+
+%#################################################################################
+
+\begin{exercise}
+\noi Scientists study the effect of fructose on mouse weights. They are equipped with a weighing machine $A$. The weight measurements suffer from a small error due to the lack of precision of the machine. 
+
+\bit
+\item Model the errors with the random variable $Y_A$ that follows a standard normal distribution. In other words, for a mouse of exact weight $m$, the weighing machine returns a measure $m+Y_A$. Compute the probability that a mouse weight will be overestimated by $0.5g$.
+
+\item The machine A is now broken, you use another one, says the weighing machine B. The error measure with this machine now modeled as a random variable $Y_B$ that follows a Normal distribution $\mathcal{N}(0,22)$. What is the probability of overestimating the weight of a mouse by 0.5g?
+
+\item Scientists want to improve the precision of the weighting machine $B$. They propose to repeat the measures taken on each mouse. How many measurements they should take to make sure to have a precision at least as good as that of the machine $A$.
+
+\item Using Rjags. You will find on a Ametice a dataset with the weight measures from 18 mouses under fructose diet and 15 mouses under no fructose diet. Using Rjags, compute the posterior distribution of mouse weights for each group. Compare the mean weights of both groups. You can choose a normal prior on the mean and a gamma prior on the precision. How can you make these priors non informative ?
+\eit
+\end{exercise}
+
+\begin{solution}
+.
+\end{solution}
+
+
+
+%#################################################################################
+%#################################################################################
+
+\begin{exercise}
+\noi (** in class) In this exercise, we model the memory retention over the time. The usual experimental design consists in giving people many items to remember on a list. Their ability to remember these items is tested after different time periods. There are many (neuroscientifically motivated models) for the memory retention over the time, we consider here an exponential decay of the form $\theta_t = \exp(-\alpha t )+\beta,\ \theta_t\in(0,1)$. $\alpha$  is the rate of decay of information, and $\beta$ corresponds to a baseline level of remembering that is assumed to remain even after very long time periods.
+
+Download on Ametice the data. It is a table which reported 4 subjects tested on 18 items at 10 time intervals. Each entry of the table gives the number of correct memory recalls for each subject at each time interval. 
+\end{exercise}
+
+\begin{solution}
+\begin{verbatim}
+    library(coda);library(rjags);library(R2jags)
+
+model_code = '
+model {
+  for (i in 1:n1)
+  {
+    x1[i] ~ dnorm(mu1,tau1)
+  }
+  for (j in 1:n2)
+  {
+    x2[j] ~ dnorm(mu2,tau2)
+  }
+  mu1 ~ dnorm(0,0.0001)
+  mu2 ~ dnorm(0,0.0001)
+  tau1 <- 1/s1
+  tau2 <- 1/s2
+  delta <- mu1-mu2
+  s1 ~ dgamma(0.0001, 0.0001)
+  s2 ~ dgamma(0.0001, 0.0001)
+}
+'
+
+set.seed(1)
+model_data = list('x1' = x1, 'x2' = x2, 'n1' = n1, 'n2'=n2 )
+
+model_parameters =  c("mu1","mu2","tau1","tau2", "delta")
+
+model_run = jags(data = model_data,
+                 parameters.to.save = model_parameters,
+                 model.file=textConnection(model_code),
+                 n.chains=4, 
+                 n.iter=10000, 
+                 n.burnin=200, 
+                 n.thin=2) 
+
+print(model_run)
+HPDinterval(as.mcmc(model_run$BUGSoutput$sims.matrix))
+plot(mcmcplots::as.mcmc.rjags(model_run))
+model_run_mcmc = as.mcmc(model_run)
+summary(model_run_mcmc)
+\end{verbatim}
+
+\end{solution}
+
+%#################################################################################
+%#################################################################################
+
+
+\end{document}
+
+

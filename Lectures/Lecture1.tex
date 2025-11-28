@@ -1,0 +1,298 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Frankfurt}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+%\usepackage[backend=biber,style=authoryear]{biblatex}
+
+\title[Your Short Title]{Introduction to probability and statistics}
+\author{Master in Cognitive Science 2025-2026}
+\institute{Lecture 1}
+\date{October, 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Uncomment these lines for an automatically generated outline.
+%\begin{frame}{Outline}
+%  \tableofcontents
+%\end{frame}
+
+\section{Agenda}
+
+\begin{frame}{Course content}
+% The main goal of the course is to learn or remind the basics of probability and statistics
+\large 
+\begin{itemize}
+    \item Basic concepts of probability theory.
+    \item Probability distributions.
+    \item Elementary \textit{\textbf{Bayesian inference}} using Rjags.
+    \item Introduction to statistical inference (\textbf{\textit{frequentist paradigm}}): Estimators; hypothesis testing.
+    \item Testing the equality of two means of normal populations.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{References}
+    \large
+    The main references are 
+    \begin{itemize}
+        \item Kass et al. (2014). Analysis of Neural Data. Springer Series in
+Statistics.
+        \item Lee et al. (2014). Bayesian cognitive modeling, a practical course. Cambridge university press.
+        \item Bergh et .al. (2021). A tutorial on Bayesian multi-model linear regression with BAS and JASP. Springer.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Guideline}
+\large
+Structure of the course:
+\begin{itemize}
+    \item 9h lectures; 12h exercises; 18h practicals on R or Python (Houssam Boukhecham, houssam.boukhecham@univ-amu.fr)
+    \item Evaluation will be partly based on practical reports. Each group at the end of practical
+sessions will post its report on Ametice. There will be an individual final exam.
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Basic concepts of probability theory}
+
+\begin{frame}{Statistics}
+    % \begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{figures/big_picture_example.png}
+%   \caption{The big picture of data, probability, and inference.}
+% \end{figure}
+
+\end{frame}
+
+\begin{frame}{On the meanings of probability}
+    \begin{itemize}
+        \item Empirical or frequentist.
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.8\linewidth]{figures/relativeFreq.png}
+        \caption{Relative frequency of heads in a fair coin tossing}
+        \label{fig:placeholder}
+    \end{figure}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{}
+    \begin{itemize}
+        \item Subjective:
+        \begin{itemize}
+            \item[-] They are your probabilities, and express \textbf{Your relationship} to the event, e.g stakeholders will have different information and different probabilities.
+            \item[-] All probabilities are conditional on a context $H$.
+            \item[-] Is probability Chance or Ignorance? e.g probability that is will rain tomorrow ? What is the height of Nigara Falls.
+        \end{itemize}
+
+        \item $\ldots$ (For further reading see "Dawid Philip, Probability and Proof".)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Probability space}
+   %%%
+    It starts with a triplet $(\Omega,\mathcal{F},P)$:
+
+\begin{itemize}
+    \item $\Omega$ \textbf{sample space}: it is the collection of all possible outcomes of a random experiment. We denote as $\omega$ the elementary outcome. 
+    \item $\mathcal{F}$ \textbf{events space}: a set whose elements $A\in\mathcal{F}$ (called events) are subsets of $\Omega$. 
+    \item  $P$ \textbf{the probability measure}: it is a function from $\mathcal{F}$ into $[0,1]$ that assigns to any event $A\in \mathcal{F}$, $P(A)$ the probability of the event $A$.
+\end{itemize}
+   %%%
+\end{frame}
+
+\begin{frame}{Examples}
+    \begin{enumerate}
+        \item One trial coin tossing (Head or Tail).
+    $\Omega = \left\lbrace H, T\right\rbrace$. \\There are two possible events $A = \lbrace H \rbrace$ and $B=\lbrace T \rbrace$.
+    \item Tossing a 6-headed dice. $\Omega = \lbrace 1,2,\cdots,6\rbrace$.
+    \item Tossing two 6-headed dices. $\Omega = \lbrace (1,1), (1,2),\cdots ,(6,6)\rbrace$.
+    In this case, the number of possible outcomes is $\#\Omega = ??$
+    \end{enumerate}
+\end{frame}
+
+%%%%%%%%%%% 
+\begin{frame}{Symbol set theory}
+% Draw Venn diagramm 
+Consider two events $A$ and $B$. We can combine these two events using different logical operations. We denote as:
+\begin{itemize}
+    \item  $\Omega$ all possible outcomes of an experiment $\backslash$ certain event.
+    \item $\emptyset$ empty set $\backslash$  impossible event.
+    \item $A$ subset of $\Omega$ (write $A\subset \Omega$)  $\backslash$ Event; if $\omega\in A$, Event $A$ occurred.
+    \item $A^c$ \textbf{complement} of $A$ $\backslash$ No elementary outcome of $A$ occurred.
+    
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%
+
+\begin{frame}
+    \begin{itemize}
+        \item $A\cup B$:  \textbf{union} of two events $A$ and $B$ $\backslash$ elementary outcome lies in A or B (or in both, A and B).
+        \item $A\cap B$:  \textbf{intersection} of two events $A$ and $B$ $\backslash$ elementary outcome occurred that lies in $A$ and $B$.
+        \item $B\backslash A = B\cap A^c$: contains outcome that are in $B$ but not in $A$.
+        \item $A$ and $B$ are \textbf{disjoint} events, if and only if $A\cap B=\emptyset$.
+        \item $A\subset  B.$ $A$ is subset of $B$ $\backslash$ if event $A$ occurs, then event $B$ occurs too.
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%
+
+\begin{frame}{Probability measure}
+    A probability measure $P$, is a real valued function defined on $\mathcal{F}$, which satisfies the follwing axioms: 
+    \begin{itemize}
+        \item $P(\Omega) = 1.$
+        \item $P(A) \geq 0, \forall A \in \mathcal{F}.$
+        \item If $A_i,\ i=1,2,\ldots$ are mutually disjoints then $$
+    P\left(\bigcup\limits_{i=1}^\infty A_i\right)=\sum_{i=1}^\infty P(A_i).
+    $$
+    \end{itemize}
+    \begin{block}{Proposition}
+\begin{itemize}
+    \item Complement rule: $P(A^c) = 1 - P(A)$.
+    \item Empty set: $P(\emptyset) = 0$.
+    \item Monotonicity: if $A \subset B$, then $P(A) \leq P(B)$.
+    \item Addition rule: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%
+\begin{frame}{Computing probability}
+\begin{itemize}
+    \item For a finite sample space $\Omega = \{\omega_1, \ldots, \omega_n\}$ 
+          with outcomes $\omega_i$ that are mutually disjoint and with 
+          $P(\omega_i) = p_i$, the probability of an event 
+          $A \subseteq \Omega$ is
+          \[
+             P(A) = \sum_{\omega_i \in A} P(\omega_i).
+          \]
+
+    \item If $\Omega$ has $n$ equally likely and mutually exclusive outcomes, 
+          and if $A \subseteq \Omega$ contains $k$ such outcomes, then
+          \[
+             P(A) = \frac{\text{number of favorable outcomes}}{\text{total number of outcomes}}
+                   = \frac{|A|}{|\Omega|}
+                   = \frac{k}{n}.
+          \]
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%
+\begin{frame}{Example: Two coin tosses}
+Consider the experiment of tossing a fair coin twice.
+
+\begin{itemize}
+    \item The sample space is
+    \[
+       \Omega = \{HH, HT, TH, TT\},
+    \]
+    where $H =$ heads and $T =$ tails.
+
+    \item Each outcome has probability
+    \[
+       P(\omega) = \tfrac{1}{4}, \quad \omega \in \Omega.
+    \]
+
+    \item Let $A =$ “exactly one head”. Then
+    \[
+       A = \{HT, TH\}, \quad |A|=2,
+    \]
+    so
+    \[
+       P(A) = \frac{|A|}{|\Omega|} = \frac{2}{4} = \tfrac{1}{2}.
+    \]
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%
+
+\begin{frame}{Basic rules of counting}
+    Often, all elements of some set $X$ can be produced by making several choices consecutively.
+    \begin{itemize}
+        \item \textbf{Sum rule}: Find how many choices there are for the first step. In each case, how many choices are there for the second step. Continue until done. Finally, add up the choices.
+        \item \textbf{Product rule}: If the first step has $n$ choices, and each leads to $m$ choices in the seond step, then there are $n\times m$ possible results.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Examples}
+\begin{itemize}
+    \item How many four-digit PIN codes can you make of the ten digits ? (\textbf{repetition allowed}).
+    \item How many four-digit PIN codes are possible if the repetition of the same number is not allowed ?
+    \item Lotto: There are 49 numbers, $1,2,\dots,49$, and you randomly pick 6 numbers; how many different lotto tickets can you form with and without repetition?
+\end{itemize}
+    
+\end{frame}
+%%%%%%%%%%
+\begin{frame}{Summary}
+    If you have $n$ different elements and arrange them into $k$-element sequences, then 
+    \begin{itemize}
+        \item $n^k$ sequences if repetition is allowed.
+        \item $n(n-1)\cdots(n-k+1)$ sequences if repetition is not allowed.
+        \item $n$ distinct elements can be ordered in $n! = n(n-1)\cdots 1$ ways.
+        \item From an $n$-element set, the number of different $k$-element subset is 
+        $$\frac{n(n-1)\cdots (n-k+1)}{k(k-1)\cdots 1} = \frac{n!}{k!(n-k)!} = \binom{n}{k}.$$
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{Conditional probability}
+    Given $A,B \subset \Omega$ and $P(B)>0$, the conditional probability of $A$ \textbf{given} $B$ is defined as:
+    $$P(A|B):= \frac{P(A\cap B)}{P(B)}$$
+    Interpret as :"how likely is an event given that another has happened".
+\end{frame}
+%%%%%%%%%%
+
+
+
+\begin{frame}{Bayes Theorem}
+    How $P(A|B)$ and $P(B|A)$ are related to each other ? 
+    \begin{align*}
+        P(B|A) &= \frac{P(A\cap B)}{P(A)}\\
+        &= \frac{P(B)}{P(A)} \frac{P(A\cap B)}{P(B)}\\
+        &= \frac{P(B)}{P(A)} P(A|B).
+    \end{align*}
+\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{Example}
+    Let $A$ and $B$ be the following events:
+    \begin{itemize}
+        \item $A$: the patient has the Covid.
+        \item $B$: the test is positive.
+    \end{itemize}
+    Terminology 
+    \begin{itemize}
+        \item The \textbf{sensitivity} of the test is $P(B|A)$.
+        \item The \textbf{specificity} of the test is $P(B^c|A^c)$.
+        \item The \textbf{prevalence} $P(A)$ is the probability of observing the Covid in the population.
+    \end{itemize}
+    We know that the test will be \textbf{positive in 85\%} of cases when used on \textbf{patients with Covid}, while it will be \textbf{positive in 5\%} of cases when patients \textbf{do not have Covid}. The prevalence of Covid in France is \textbf{10\%}.
+
+    Compute the probability of \textbf{having Covid} knowing that the \textbf{test is positive}. 
+\end{frame}
+
+\begin{frame}{Further reading}
+    Chapter 3.1 in Kass et al (2009).
+\end{frame}
+
+\end{document}

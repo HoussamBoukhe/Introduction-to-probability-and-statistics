@@ -1,0 +1,128 @@
+---
+title: 'Examen: Introduction à la probabilité et aux statistiques'
+author: "M2:Masco 2025-2026"
+date: "28-11-2025"
+output: pdf_document
+---
+
+## Exercice 1:
+
+Dans un jeu de hasard où l’on tire à pile ou face, on gagne lorsque l’on obtient un pile et on perd lorsque l’on obtient un face. 
+On choisit au hasard une pièce dans un sac contenant des pièces truquées de deux types A et B.
+La probabilité de gagner avec une pièce de type A est de $80\%$, et celle de gagner avec une pièce de type B est de $10\%$.
+On sait également que la probabilité de choisir une pièce de type A est de $30\%$ et celle de choisir une pièce de type B est de $70\%$.
+
+\begin{enumerate}
+    \item On choisit une pièce au hasard et on la lance une fois. Quelle est la probabilité de perdre ?
+    \item Sachant que l’on gagne, quelle est la probabilité d’avoir choisi une pièce de type A ?
+\end{enumerate}
+
+## Exercice 2:
+
+On modélise le nombre de \emph{spikes} au cours d’une expérience par une variable aléatoire $X$ suivant 
+une loi de Poisson de paramètre inconnu $\Theta=\theta>0$. On écrit :
+\[
+P(X = x \mid \Theta=\theta) = e^{-\theta}\,\frac{\theta^{x}}{x!}, \qquad x = 0,1,2,\ldots
+\]
+
+À partir de connaissances préalables sur le phénomène, on sait que la variable aléatoire $\Theta$ est 
+discrète et prend les valeurs $\{0.1,\,0.5,\,1,\,2\}$ avec les probabilités associées 
+$\{0.25,\,0.25,\,0.4,\,0.1\}$
+
+\begin{enumerate}
+    \item Lors d’une première expérience, on observe $2$ spikes. Donner la distribution a posteriori de $\Theta$.
+    \item Déterminer la moyenne a posteriori de $\Theta$.
+    \item Calculer la probabilité a posteriori que $\Theta$ soit strictement inférieur à 1.
+    \item On répète l’expérience et on observe cette fois $1$ spike. Les observations étant supposées indépendantes, 
+    déterminer la distribution a posteriori de $\Theta$ sur base des deux expériences.
+\end{enumerate}
+
+
+## Exercice 3:
+La modification des conditions météorologiques, ou l’ensemencement des nuages, consiste à traiter des
+nuages individuels ou des systèmes orageux avec divers matériaux inorganiques et organiques dans
+l’espoir d’obtenir une augmentation des précipitations. Le jeu de données \texttt{clouds.csv} contient deux
+variables donnant le logarithme des précipitations mesurées en acre-foot (environ $1233\,\text{m}^3$) 
+pour $26$ nuages non-ensemencés (\texttt{unseeded}) et $26$ nuages ensemencés (\texttt{seeded}).
+
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:/Users/labo-maths/Downloads")
+```
+
+
+```{r}
+clouds <- read.csv("clouds.csv")
+X <- clouds$unseeded
+Y <- clouds$seeded
+head(clouds)
+```
+
+\begin{itemize}
+\item[1.] Expliquez ce que fait chaque ligne du code ci-dessus.
+\end{itemize}
+
+Vous souhaitez examiner si l’ensemencement des nuages a un impact sur les précipitations.
+
+\begin{itemize}
+  \item[2.] Proposez une procédure pour étudier cela (énoncez l’hypothèse nulle, l’hypothèse alternative, les hypothèses nécessaires, etc.).
+\end{itemize}
+
+Vous décidez de réaliser les tests suivants
+
+
+```{r}
+#a. test 1
+shapiro.test(X)
+
+#b. test 2
+shapiro.test(Y)
+
+#c. test 3
+var.test(X,Y)
+
+#d. test 4
+t.test(X,Y, var.equal = TRUE)
+```
+
+\begin{enumerate}
+\item[3.] Décrivez ce que chaque test permet de vérifier et pourquoi on choisit \texttt{var.equal = TRUE} pour le test 4.
+\item[4.] Quelles sont vos conclusions ?
+\end{enumerate}
+
+## Exercice 4:
+
+
+\begin{enumerate}
+
+\item Voici les valeurs observées de deux échantillons (considérés comme indépendants):
+\[
+A = (176, 391, 314, 248, 373, 393, 330), \qquad
+B = (307, 310, 374, 343, 360, 280).
+\]
+On réalise un test de Wilcoxon. Quelle est la valeur de la statistique de test ? Détaillez vos calculs.
+
+\item Si l’on ajoute 200 à chaque élément de $A$ et de $B$, la valeur de la statistique change-t-elle ?
+
+
+\item On observe un échantillon $(X_1,\ldots,X_n)$ de variables aléatoires indépendantes telles que $X_i \sim \mathrm{Binomial}(10,\theta)$, $\theta\in(0,1)$.  
+On souhaite estimer $\theta$.  
+On vous propose l’estimateur
+\[
+\hat{\theta} = \frac{n}{10(n-2)}\,\bar{X} - \frac{2}{n},
+\qquad
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+Calculer le biais et la variance de cet estimateur. Commenter.
+
+\item Comparer et discuter en quelques lignes les approches bayésienne et fréquentiste en inférence statistique.
+
+\item Un expérimentateur affirme : "pour rejeter une hypothèse nulle d’égalité de moyennes, il me suffit de collecter des échantillons suffisamment grands". Commenter cette assertion.
+
+\item Expliquez brièvement ce qu'est l'ANOVA bayésienne et à quoi elle sert.
+
+\item Quel est le facteur bayésien pour deux modèles, \(M_1\) et \(M_2\) ? Comment interpréter \(BF_{12} = 4\) ?
+
+\item Si \(BF_{01} = 3\) et \(BF_{12} = 2\), quel modèle est le meilleur : \(M_0\) ou \(M_2\) ?
+
+\end{enumerate}

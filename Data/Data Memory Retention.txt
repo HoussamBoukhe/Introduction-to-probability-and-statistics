@@ -1,0 +1,10 @@
+t     <- c(1, 2, 4, 7, 12, 21, 35, 59, 99, 200)
+nt    <- length(t)
+slist <- 1:4
+ns    <- length(slist)
+
+k <- matrix(c(18, 18, 16, 13, 9, 6, 4, 4, 4, NA,
+             17, 13,  9,  6, 4, 4, 4, 4, 4, NA,
+             14, 10,  6,  4, 4, 4, 4, 4, 4, NA,
+             NA, NA, NA, NA,NA,NA,NA,NA,NA, NA), nrow=ns, ncol=nt, byrow=T)
+n <- 18

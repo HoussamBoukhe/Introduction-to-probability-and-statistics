@@ -1,0 +1,166 @@
+---
+title: "Masco: follow-along with R"
+output: pdf_document
+date: "2025-10-03"
+---
+
+# Probability space
+
+The following code build a random experiment which consists in a single coin toss with fair and not fair coin. *Check the usage of the function 'sample' typing '?sample' in the R-console.*
+
+```{r eval=FALSE}
+Omega = data.frame(Result = factor(c("Head","Tail")))
+# Fair coin
+sample(Omega$Result, size = 1)
+
+# not fair coin 
+sample(Omega$Result, size = 1, prob = c(1/3,2/3))
+```
+
+**Questions:**
+
+* Check that the relative frequency of getting a 'Head' for the not fair coin is converging to $1/3$.
+* Consider the 6-sided dice tossing experiment. Check that the relative frequency of getting $6$ is converging to $1/6$.
+* Consider the **two 6-sided dice** tossing experiment.
+    + evaluate the probability of the events $A=$ 'the sum of result is greater than 6'; $B=$ the sum of result is even.
+    + evaluate the probability of $A\cup B$, $A\cap B$, $A\Delta B$.
+
+
+```{r echo=FALSE, eval=FALSE}
+# *not fair coin, relative frequency of Head*
+
+n = 100 #number of coin tosses
+res_exp = sample(Omega$Result, size = n, prob = c(1/3,2/3), replace = TRUE)
+mean(res_exp == "Head")
+```
+
+```{r echo=FALSE, eval=FALSE}
+# *6-sided dice tossing*
+
+Omega = data.frame(Result = factor(1:6))
+# Fair coin
+sample(Omega$Result, size = 1)
+
+# event: 'The result exceeds 3'
+Omega = data.frame(Result = 1:6)
+
+sample(Omega$Result, size = 1)==6
+# Probability of this event
+sum(sample(Omega$Result, size = n, replace = TRUE)==6)/n
+```
+
+
+```{r echo=FALSE, eval= FALSE}
+# *two 6-sided dice tossing*
+
+Omega = data.frame(Result = expand.grid(1:6,1:6))
+
+# event (6,6)
+sum(Omega[sample(1:dim(Omega)[1], size = 1), ] == c(6,6))==2 # first and second dice give 6 
+res = Omega[sample(1:dim(Omega)[1], size = n, replace = TRUE), ]
+mean(apply(res, 1, function(x){x == c(6,6)}))
+
+# event A
+A = rowSums(Omega[sample(1:dim(Omega)[1], size = n, replace = TRUE), ])>3
+
+mean(apply(res, 1, sum)>6)
+
+# event B
+B = rowSums(Omega[sample(1:dim(Omega)[1], size = n, replace = TRUE), ])%%2 == 0
+
+#event A union B
+mean((A==TRUE)|(B==TRUE))
+
+# event A intersection B
+mean((A==TRUE)&(B==TRUE))
+
+
+# symmetric difference of A and B
+mean(xor(A==TRUE,B==TRUE))
+
+```
+
+ 
+
+# Empirical probability
+
+* Using ggplot reproduce the graphic illustrating relative frequency for coin tossing appearing in the first lecture note. *Hint: in addition to the R-package 'ggplot2', you might want to use 'reshape2', more specifically the function 'reshape'.*
+
+```{r echo=FALSE, fig= FALSE, out.width="50%", fig.align='center', message=FALSE, eval=FALSE}
+N = 1000
+expe = rbinom(n = N, size = 1, prob = 0.5)
+relative_freq = cumsum(expe)/1:N
+
+#plot(relative_freq,  col = rgb(0, 0, 0, alpha = 0.3), type='l', main = "Probability of getting a head in fair coin tossing",
+#     ylim=c(0,1), ylab = "relative frequency", xlab = "number of experiments")
+#abline(h=0.5, col = "red")
+#for (r in 1:50)
+#{
+#  expe = rbinom(n = N, size = 1, prob = 0.5)
+#  relative_freq = cumsum(expe)/1:N
+#  lines(relative_freq,  col = rgb(0, 0, 0, alpha = 0.3), type='l')
+#}
+
+# with ggplot
+library(ggplot2, quietly = TRUE)
+library(reshape2)
+
+N = 1000
+df = data.frame(x = 1:N)
+
+for (r in 1:50)
+{
+  expe = rbinom(n = N, size = 1, prob = 0.5)
+  df[, (r+1)] = cumsum(expe)/1:N
+}
+
+df_reshape = melt(df, id = "x")
+
+ggplot(df_reshape, aes(x = x, y = value, group = variable, color = variable))+ 
+  geom_line(alpha=0.3) + 
+  xlab("number of experiments") + 
+  ylab("relative frequency")+
+  ggtitle("Probability of getting a head in fair coin tossing")+
+  theme(legend.position = "none")+
+  geom_hline(yintercept = 0.5, color = "red")+
+  theme(text = element_text(size=20))
+```
+
+
+
+# Exercise Birthay 
+
+Suppose there are $n$ people in a room. What is the probability that at least two people have a common birthday ? We suppose each day is equally likely. Write an R function to visualize this probability as a function of $n$. *going further, we can try to use the R-function 'Vectorize' to simplify your code.*
+
+```{r echo=FALSE, fig= FALSE, eval=FALSE}
+proba_cb = function(n) # create a function named "proba_cb"
+{
+  #  prob= 1-factorial(365)/(365^n*factorial(365-n)) # return NaN -> too huge number need to workout the formula
+  x = 365:(365-n+1) # create a vector of length n
+  prob = 1-prod(x)/(365^n)
+  return(prob) # return the computed value
+}
+
+# using the function
+proba_cb(4) # can be used only with a single value for 'n' but we would like to visualise the result as a function of n
+
+# Vectorize the created function
+proba_cb_vec = Vectorize(proba_cb)
+
+# use of the vectorized function
+n_vec = 1:100
+
+proba_cb_vec(n_vec)
+
+plot(n_vec, proba_cb_vec(n_vec), type='l')
+
+# enhance the plot quality using ggplot2
+df = data.frame(x=n_vec, y=proba_cb_vec(n_vec) ) # create a data frame object
+
+library(ggplot2)
+p = ggplot(data=df, aes(x=x, y=y)) + geom_line() +
+  labs(y="Probability of at least 2 common birthday",x = "n")
+p
+```
+
+

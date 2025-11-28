@@ -1,0 +1,305 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Frankfurt}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+%\usepackage[backend=biber,style=authoryear]{biblatex}
+%\usepackage{minted}
+%\usemintedstyle{friendly} % You can also try: xcode, tango, borland, vs, autumn
+
+\title[Your Short Title]{Introduction to probability and statistics}
+\author{Master in Cognitive Science 2025-2026}
+\institute{Lecture 3}
+\date{October, 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%\section{Objectives}
+\begin{frame}{Objectives}
+\begin{itemize}
+\item Introduction to Bayesian statistics
+\item First example: Inference on a proportion “by hand”
+%\item Predictive posterior
+\item Conjugate priors
+\item Markov Chain Monte Carlo (MCMC)
+\item Inference using Jags
+\end{itemize}
+\textbf{Rreadings}: Lee and Wagenmakers, Bayesian Cognitive Modeling A practical Course. Chapter 1: The basics of Bayesian analysis
+\end{frame}
+
+\section{Introduction to Bayesian Statistics}
+
+\begin{frame}{Introduction to Bayesian Statistics}
+Imagine we want to \textit{estimate} a parameter $\theta$, for example, the interspike time interval. However, we do not observe the parameter $\theta$ directly. The uncertainty or "degree of belief" about $\theta$ is quantified using probability, by assuming that $\theta$ is a random variable following some distribution $p(\theta)$ (the \textbf{prior}). 
+
+Once data $D$ are observed (for instance, from many trials of a neuron's spike train), the prior information or beliefs are updated to form the \textbf{posterior} distribution $p(\theta \mid D)$.
+\end{frame}
+
+\begin{frame}{Bayes' rule}
+Bayes' rule tells us how to combine the information given by the data (the \textbf{likelihood} $p(D | \theta)$) with the prior knowledge to get the posterior distribution 
+\begin{block}{Bayes' rule}
+\begin{equation}\label{Bayes' rule to get the posterior}
+p(\theta | D) = \frac{p(D | \theta) p(\theta)}{p(D)}.
+\end{equation} 
+\end{block}
+
+
+\textbf{Notation:}
+Since $P(D)$ does not involve on the parameter of interest $P(D)$, we write equation \eqref{Bayes' rule to get the posterior} as 
+\begin{equation}\label{Posterior prop like x prior}
+p(\theta | D) \propto p(D | \theta) p(\theta).
+\end{equation}
+The symbol $\propto$ is to say that "it is proportiona tol" or they are equal up to normalizing constant.
+\end{frame}
+
+\begin{frame}[fragile]{Inference of a proportion}
+Bayesian model for Binomial data with uniform prior.
+
+Suppose you pass an exam with $n = 100$ questions, and you get $y = 70$ right questions. We want to model your score ($\frac{\#\text{correct answers}}{\#\text{total questions}}$) $\theta$ with a discrete uniform prior over the set of values $\lbrace \frac{0}{100},\frac{1}{100},\frac{2}{100},\cdots, \frac{100}{100}\rbrace$. 
+
+What is the posterior probability of your score? 
+
+\begin{verbatim}
+n = 50
+y = 35  
+theta = seq(0, 100)/100
+prior = rep(1/101, length = 101)
+like = choose(n, y) * (theta^y) * (1 - theta)^(n - y)
+post = prior * like / sum(like * prior)
+
+plot(theta, post, type = "h", col = 2)
+lines(theta, prior, type = "h", col = 4)
+legend("topright", c("prior", "posterior"))
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}{Prior and Posterior distributions}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/PriorPosteriorByHand.png}
+    \caption{Prior and Posterior distribution of exam score}
+\end{figure}
+\end{frame}
+
+\begin{frame}[fragile]{Prior and Posterior probability}
+\begin{verbatim}
+interval = (findInterval(theta,c(0.6,0.8)) == 1)
+cat("prior probability of theta in [0.6;0.8]= ", 
+		sum(prior*interval))
+
+## prior probability of theta in [0.6;0.8]=  0.1980198
+\end{verbatim}
+
+\begin{verbatim}
+interval = (findInterval(theta,c(0.6,0.8)) == 1)
+cat("prior probability of theta in [0.6;0.8]= ", 
+		sum(post*interval))
+
+## prior probability of theta in [0.6;0.8]=  0.8865295
+\end{verbatim}
+\end{frame}
+
+\begin{frame}{Conjugate Prior}
+\begin{block}{}
+Given a likelihood distribution $p(x \mid \theta)$, if the posterior distribution belongs to the same family as the prior distribution, then the prior and posterior are said to be \textbf{conjugate} with respect to the chosen likelihood function.
+\end{block}
+\textbf{Example:} Suppose you didn't pass the official exam yet, and we know that you prepared 4 out of the 5 chapters you had to read. When you passed the practice exam you got $y$ correct answers out of $n$.
+\end{frame}
+
+\begin{frame}
+For the prior, we use a Beta distribution $\text{Beta}(4,1)$, which represents \textbf{4 “successes” and 1 “failure”} in our prior knowledge. 
+
+After observing data $y$ out of $n$ trials, the posterior is also a Beta distribution (due to conjugacy) with updated parameters:
+
+\[
+\theta \mid y \sim \text{Beta}(y+4,\, n-y+1),
+\]
+
+where the prior counts are added to the observed counts, reflecting how the data updates our prior beliefs.
+$$
+\begin{aligned}
+\text{Likelihood}&  
+\left\{\begin{array}{l}
+y\vert \theta \sim Bin(n,\theta)\\
+p(y\vert \theta)=\binom{n}{y}\theta^{y}(1-\theta)^{n-y}.
+\end{array}\right.\\
+\text{Prior}&  \left\{\begin{array}{l}
+\theta\sim Be(4,1)\\
+\pi( \theta)=4x^3\cdot 1_{\left\{\theta\in(0,1)\right\}}.
+\end{array}\right.\\
+\text{Posterior}&  \left\{\begin{array}{l}
+\theta\vert y \sim Be(y+4, n-y+1)\\
+\pi( \theta \vert y)\propto \theta^{y+3}(1-\theta)^{n-y}.
+\end{array}\right.
+\end{aligned}
+$$
+\end{frame}
+
+
+\begin{frame}{Some Examples of Conjugate Priors}
+
+\begin{table}[h!]
+\centering
+\footnotesize % Smaller font
+\renewcommand{\arraystretch}{1.2} % Slightly reduced spacing
+\begin{tabular}{|p{2cm}|p{2cm}|p{1cm}|p{4cm}|}
+\hline
+\textbf{Likelihood} & \textbf{Conjugate Prior (and posterior)} & \textbf{Prior Hyperparam.} & \textbf{Posterior Hyperparam.} \\
+\hline
+Bernoulli($p$) & Beta($\alpha, \beta$) & $\alpha, \beta$ & $\alpha + \sum x_i, \beta + n - \sum x_i$ \\
+\hline
+Binomial($n, p$) & Beta($\alpha, \beta$) & $\alpha, \beta$ & $\alpha + \sum x_i, \beta  + \sum (n - x_i)$ \\
+\hline
+Poisson($\lambda$) & Gamma($\alpha, \beta$) & $\alpha, \beta$ & $\alpha + \sum x_i, \beta + n$ \\
+\hline
+Exponential($\lambda$) & Gamma($\alpha, \beta$) & $\alpha, \beta$ & $\alpha + n, \beta + \sum x_i$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{frame}
+
+\begin{frame}{Can we always compute the distribution of the posterior?}
+\begin{block}{}
+In most real-world case studies, it is often difficult, and sometimes impossible, to obtain a closed-form analytic expression for the posterior distribution for many practically interesting choices of likelihood and prior. This limitation restricted the use of Bayesian inference for many years. The introduction of MCMC methods dramatically improved this situation by providing a technique to \textit{sample} from the posterior distribution without requiring its analytic form.
+\end{block}
+
+\end{frame}
+
+\section{MCMC}
+\begin{frame}{Markov Chain Monte Carlo (MCMC)}
+
+\begin{itemize}
+    \item MCMC constructs a \textbf{Markov chain} whose \textit{target distribution is the posterior distribution} of the parameters.
+    \item Under suitable regularity conditions, the Markov chain converges to this target (equilibrium) distribution.
+    \item Once converged, MCMC generates dependent samples from the posterior distribution.
+    \item Inference is then performed using the empirical distribution of these samples.
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Monte Carlo approximation of posterior characteristics}
+
+We are typically interested in quantities of the form
+$$
+\mathbb{E}_{\theta\vert x}(g(\theta))=\int_{\Theta} g(\theta)\pi(\theta\vert x)d\theta.
+$$
+Since $\pi(\theta\vert x)$ is a density, we can use a sample $\theta_1,\ldots,\theta_M$ generated from the posterior density $\pi(\theta\vert x)$ and approximate by an empirical average
+
+$$
+\bar{g}_M:=\frac{1}{M}\sum_{m=1}^Mg(\theta_m).
+$$
+By the SLLN, $\bar{g}_M$ converges a.s. to $\mathbb{E}_{\theta\vert x}(g(\theta))$.
+\end{frame}
+
+\section{Jags}
+\begin{frame}[fragile]{JAGS (Just Another Gibbs Sampler)}
+Download the latest version of JAGS at:
+
+\url{https://sourceforge.net/projects/mcmc-jags/files/latest/download}
+\\
+\vspace*{0.3cm}
+Install the library \texttt{Rjags} in \textsf{R}:
+\begin{verbatim}
+install.packages("Rjags")
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Setting Up the Bayesian Model}
+We want to model your score on an exam with 10 questions. You passed last years exam and got 7 correct answers out of 10.
+\begin{block}{Model specification}
+
+\begin{verbatim}
+model_string <- "
+model {
+  # Likelihood
+  k ~ dbin(theta, n)
+  
+  # Prior
+  theta ~ dunif(0,1)
+}
+"
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%% 
+
+\begin{frame}[fragile]{}
+
+The observed data in this case is:
+
+\begin{block}{Observed data}
+\begin{verbatim}
+n <- 10 # Number of questions 
+k <- 7  # Number of correct answers
+data_list <- list(k = k, n = n)
+\end{verbatim}
+\end{block}
+
+Then we initialize the JAGS sampler:
+
+\begin{block}{Model Initialization}
+\begin{verbatim}
+model <- jags.model(
+  textConnection(model_string),
+  data_list,
+  n.chains = 3,
+  n.adapt = 1000
+)
+\end{verbatim}
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%
+
+\begin{frame}[fragile]
+\begin{block}{Posterior Sampling}
+\begin{verbatim}
+# Burn-in
+update(jags_model, 1000) 
+mcmc_samples <- coda.samples(model, 
+   variable.names = c("theta"), n.iter = 5000)
+\end{verbatim}
+\end{block}
+
+The variable \texttt{mcmc\_samples} contains draws from the posterior distribution.
+
+\begin{block}{Exercise}
+\begin{enumerate}
+\item Show that $\text{Unif}(0,1) = \text{Beta}(1,1)$.
+\item Compare the empirical cumulative distribution function of the generated samples with the theoretical CDF of $\text{Beta}(8,4)$.
+\item What are your conclusions?
+\end{enumerate}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%
+
+\end{document}

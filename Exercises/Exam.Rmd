@@ -1,0 +1,125 @@
+---
+title: 'Exam: Introduction to probability and statistics'
+author: "M2:Masco 2025-2026"
+date: "28-11-2025"
+output: pdf_document
+---
+
+## Exercise 1: 
+
+In a game of chance where a coin is flipped, you win when you get heads and you lose when you get tails.
+A coin is randomly chosen from a bag containing two types of biased coins, A and B.
+The probability of winning with a type-A coin is $80\%$, and the probability of winning with a type-B coin is $10\%$.
+We also know that the probability of choosing a type-A coin is $30\%$ and that of choosing a type-B coin is $70\%$.
+
+\begin{enumerate}
+    \item A coin is chosen at random and flipped once. What is the probability of losing?
+    \item Given that you win, what is the probability that the chosen coin was of type A?
+\end{enumerate}
+
+
+## Exercise 2: 
+We model the number of \emph{spikes} during an experiment by a random variable $X$ following 
+a Poisson distribution with unknown parameter $\Theta=\theta>0$. We write:
+\[
+P(X = x \mid \Theta=\theta) = e^{-\theta}\,\frac{\theta^{x}}{x!}, \qquad x = 0,1,2,\ldots
+\]
+
+Based on prior knowledge of the phenomenon, we know that the random variable $\Theta$ is 
+discrete and takes the values $\{0.1,\,0.5,\,1,\,2\}$ with associated probabilities 
+$\{0.25,\,0.25,\,0.4,\,0.1\}$.
+
+\begin{enumerate}
+    \item In a first experiment, we observe $2$ spikes. Give the posterior distribution of $\Theta$.
+    \item Determine the posterior mean of $\Theta$.
+    \item Compute the posterior probability that $\Theta$ is smaller than $1$.
+    \item The experiment is repeated and we now observe $1$ spike. Assuming the observations are independent,
+    determine the posterior distribution of $\Theta$ based on both experiments.
+\end{enumerate}
+
+
+## Exercise 3:
+
+Weather modification, or cloud seeding, consists of treating individual clouds or storm systems with various inorganic and organic materials in the hope of increasing precipitation. The dataset \texttt{clouds.csv} contains two variables giving the logarithm of precipitation measured in acre-foot (about $1233\,\text{m}^3$) for $26$ unseeded clouds (\texttt{unseeded}) and $26$ seeded clouds (\texttt{seeded}).
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "C:/Users/labo-maths/Downloads")
+```
+
+
+```{r}
+clouds <- read.csv("clouds.csv")
+X <- clouds$unseeded
+Y <- clouds$seeded
+head(clouds)
+```
+
+
+\begin{itemize}
+\item[1.] Explain what each line of the above code does.
+\end{itemize}
+
+You want to examine whether cloud seeding has an impact on precipitation.
+
+\begin{itemize}
+  \item[2.] Propose a procedure to investigate this (state the null hypothesis, the alternative, and the assumptions required, etc.).
+\end{itemize}
+
+You decide to run the following tests
+
+
+```{r}
+#a. test 1
+shapiro.test(X)
+
+#b. test 2
+shapiro.test(Y)
+
+#c. test 3
+var.test(X,Y)
+
+#d. test 4
+t.test(X,Y, var.equal = TRUE)
+```
+\begin{enumerate}
+\item[3.] Explain what each test is for and why we choose \texttt{var.equal = TRUE} in test 4.
+\item[4.] What are your conclusions?
+\end{enumerate}
+
+## Exercise 4 
+\begin{enumerate}
+
+\item Here are the observed values of two samples (considered independent):
+\[
+A = (176, 391, 314, 248, 373, 393, 330), \qquad
+B = (307, 310, 374, 343, 360, 280).
+\]
+We perform a Wilcoxon rank sum test. What is the value of the test statistic? Show your calculations in detail.
+
+\item If we add 200 to each element of $A$ and $B$, does the value of the test statistic change?
+
+\item We observe a sample $(X_1,\ldots,X_n)$ of independent random variables such that $X_i \sim \mathrm{Binomial}(10,\theta)$, $\theta\in(0,1)$.  
+We want to estimate $\theta$.  
+The proposed estimator is
+\[
+\hat{\theta} = \frac{n}{10(n-2)}\,\bar{X} - \frac{2}{n},
+\qquad
+\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i.
+\]
+Compute the bias and variance of this estimator. Comment on your result.
+
+\item Compare and briefly discuss the Bayesian and frequentist approaches in statistical inference.
+
+\item An experimenter claims: "To reject a null hypothesis of equal means, it is enough to collect sufficiently large samples." Comment on this claim.
+
+\item Briefly explain what Bayesian ANOVA is and what it does.
+
+\item What is the Bayes factor for two models, \(M_1\) and \(M_2\)? How do we interpret \(BF_{12} = 4\)?
+
+\item If \(BF_{01} = 3\) and \(BF_{12} = 2\), which model is better: \(M_0\) or \(M_2\)?
+
+
+\end{enumerate}
+
+
+

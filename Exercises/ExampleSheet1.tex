@@ -1,0 +1,451 @@
+\documentclass[11pt,a4paper]{article}
+
+\textwidth=16cm
+\textheight=24.5cm
+\oddsidemargin0cm
+\topmargin-1cm
+\parindent0cm
+\parskip0ex
+%\linespread{1.2}
+
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\setlength{\bibsep}{0pt}
+\newcommand{\biblist}{
+\bibliographystyle{apalike}
+\bibliography{BiblioRA}
+}
+
+\newcommand{\Prob}{\mathrm{P}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cor}{\mathrm{Corr}}
+
+
+\newcommand{\bds}{\boldsymbol}
+
+\usepackage{times}
+
+\usepackage[english]{babel} %on pourrait ausi utiliser [english] \usepackage{latexSym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[dvips]{graphicx}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{overpic}
+\usepackage{rotating}
+\usepackage{here}
+\usepackage{txfonts}
+\usepackage{color}
+\usepackage{url}
+
+%\usepackage{geometry} %destroys the textwidth commands
+\usepackage{tikz}
+
+
+\newtheorem{proof}{proof}
+%\newcommand{\bpre}{\begin{proof}}
+%\newcommand{\epre}{\end{proof}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{\bf Remark}[section]
+\newtheorem{algorithm}{\bf Algorithm}[section]
+\newtheorem{program}{Program}[section]
+\newtheorem{note}{\bf Note}
+\newenvironment{example1}[1][ ]{\begin{example}[#1]\em}{\qed\end{example}}
+\newenvironment{remark1}[1][ ]{\begin{remark}[#1]\em}{\end{remark}}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\eqd}{\stackrel{d}{=}}
+\newcommand{\law}{\mathcal{L}}
+\newcommand{\rmd}{\mathrm{d}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\1}{\boldsymbol{1}}
+
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\mbN}{\mathbb{N}}
+\newcommand{\mbZ}{\mathbb{Z}}
+
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\argmin}{\mathop{\mathrm{arg\,min}}}
+
+\newcommand{\dto}{\rightsquigarrow}
+\newcommand{\pto}{\stackrel{\mathrm{P}}{\to}}
+
+\newcommand{\bX}{\overline{X}}
+\newcommand{\bXX}{\overline{X^2}}
+\newcommand{\bY}{\overline{X}}
+\newcommand{\bYY}{\overline{X^2}}
+\newcommand{\bXY}{\overline{XY}}
+
+
+\def\Prodi{\mathop{{\lower 3pt\hbox{\epsfxsize=15pt\epsfbox{pi.ps}}}}}
+\def\prodi{\mathop{{\lower 1pt\hbox{\epsfxsize=8pt\epsfbox{pi.ps}}}}}
+\input epsf.sty
+\newcommand{\CAL}[1]{\mathcal{#1}}
+\newcommand{\si}{\mbox{$\sigma$}}
+\newcommand{\epsi}{\mbox{$\varepsilon$}}
+\newcommand{\sisq}{\mbox{$\sigma^2$}}
+\newcommand{\al}{\mbox{$\alpha$}}
+\newcommand{\be}{\mbox{$\beta$}}
+\newcommand{\vfi}{\mbox{$\varphi$}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\p}{\mbox{$\mathcal{P}$}}
+\newcommand{\Q}{\mbox{$\mathcal{Q}$}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beas}{\begin{eqnarray*}}
+\newcommand{\eeas}{\end{eqnarray*}}
+\newcommand{\ind}{1\hspace{-2.5mm}{1}}
+\newcommand{\BB}[1]{\mathbb{#1}}
+\newcommand{\noi}{\noindent}
+
+\def\tcr{\textcolor{red}}
+
+\usepackage[printsolution=true]{exercises}
+
+\begin{document}
+
+\begin{center}
+\huge Introduction to Probability and statistics   \\
+\large Master in Cognitive Science 2025-2026\\
+\large Example sheet 1
+\end{center}
+
+%\begin{exercise}
+%As we discussed in class, the recent composite poll found that $45\%$ of registered voters preferred Hilary Clinton compared with $41 \%$ who preferred Donald Trump. Suppose that the margin of error of the poll was $1 \%$. Approximately how many registered voters were polled?
+%\end{exercise}
+
+%\begin{solution}
+%.
+%\end{solution}
+
+\begin{exercise}
+Suppose there are $n$ people in a room. Assume that each day of the year is equally likely, and that a year has 365 days.
+\begin{enumerate}
+    \item What is the probability that at least two people have a common birthday ?
+    \item Write an R function to visualize this probability as a function of $n$.
+    \item What is the smallest number of people in the room such that this probability is greater than or equal to $0.5$ ?
+\end{enumerate}
+\end{exercise}
+
+% \begin{solution}
+% \noindent Let define the event $A=\text{"at least two people have a common birthday"}$. It is sometimes easier to work with the complementary event which is $A^c= \text{"each person is born on a different day"}$.\\
+
+% \noi There are in total $\#\Omega=365^n$ possible outcomes. \\
+
+% \noi Since $A^c$ has $\frac{365!}{(365-n)!}$ outcomes  and because the sample space is symmetric (equally likely outcomes), $P(A)=1-P(A^c)=1- \frac{365!}{365^n(365-n)!}$. 
+
+
+% \begin{verbatim}
+% proba_cb = function(n) # create a function named "proba_cb"
+% {
+% #  prob= 1-factorial(365)/(365^n*factorial(365-n))  # return NaN -> too huge number 
+%                                                     # need to workout the formula
+%   x = 365:(365-n+1) # create a vector of length n
+%   prob= 1-prod(x)/(365^n)
+%   return(prob) # return the computed value
+% }
+
+% # using the previously built function
+% proba_cb(4) # can be used only with a single value for 'n'
+%             # but we would like to visualise the result as a function of 'n'
+
+% # Vectorize the created function
+% proba_cb_vec = Vectorize(proba_cb)
+
+% # use of the vectorize function
+% n_vec = 1:100
+% plot(n_vec,proba_cb_vec(n_vec), type='l')
+
+% # enhance the plot quality using ggplot2
+% df = data.frame(x=n_vec, y=proba_cb_vec(n_vec) ) # create a data frame object
+
+% library(ggplot2)
+% p = ggplot(data=df, aes(x=x, y=y)) + 
+%     labs(y="Probability of at least 2 common birthday",x = "n")+
+%     geom_line()
+% p
+% \end{verbatim}
+
+% \end{solution}
+%#################################################################################
+
+\begin{exercise}
+A company is forming a 5-member executive board. There are 16 applicants, 6 of whom are men. If the board is formed by selecting randomly from the applicants, what is the probability of selecting 3 men and 2 women.
+\end{exercise}
+
+% \begin{solution}
+% Let define $\Omega = \text{"5 among 16 applicants"}$. $\# \Omega=\binom{16}{5}$. \\
+% Let $A$ be the event "select 3 men and 2 women". How many ways can realize this event ?
+% \begin{itemize}
+%     \item  choose 3 out of 6 men,
+%     \item choose 2 out of 10 women.
+% \end{itemize}
+
+% $\# A = \binom{6}{3}\binom{10}{2}$.\\
+
+% \begin{equation*}
+% P(A)=\frac{ \binom{6}{3}\binom{10}{2}}{\binom{16}{5}}  \approx 0.206.  
+% \end{equation*}
+
+    
+% \end{solution}
+%#################################################################################
+
+\begin{exercise}
+A multiple choice exam has 10 questions. For each question, there are 4 possible answers, only one is correct. 
+\begin{enumerate}
+    \item How many possible answer sheets are there? 
+    \item Answering randomly, what is the probability of getting at least 6 correct answers ? 
+\end{enumerate}
+\end{exercise}
+
+% \begin{solution}
+% \noindent 1. An answer-sheet is a sequence of 10 answers, there are fours possibilities each, i.e., $4^{10}=1048576$ possible answer-sheets.\\
+
+% \noindent 2. We are interested in the following events $E=\text{"answer at least 6 times correctly}"$, in other words, he is answering correctly to $6,7,8,9$ or $10$ questions. Let define the event $A_n=\text{"answer correctly to exactly n questions}"$. $A_n$ is realized if $n$ answers are correct and $10-n$ are incorrect, $3$ choices being possible for the latter. As there are $\binom{10}{n}$ ways to correctly answers $10$ questions, there will be $\binom{10}{n}3^{10-n}$ ways to realize $A_n$, therefore,
+
+% $$
+% P(A_n)=\frac{\binom{10}{n}3^{10-n}}{4^{10}}.
+% $$
+
+% \noindent Hence, the probability of answering correctly to at least 6 questions is  
+% $$
+% P(E)=\sum_{n=6}^{10}\frac{\binom{10}{n}3^{10-n}}{4^{10}}\approx 1.97\times 10^{-2}.
+% $$
+
+% \end{solution}
+
+
+
+
+
+%#################################################################################
+
+\begin{exercise}
+A six-sided regular dice is rolled twice. The sample space is the following:
+\beas
+\Omega = \left\{(x, y): x = 1,2,\cdots, 6\text{ and }y = 1,2,\cdots, 6 \right\},
+\eeas
+where $x$ and $y$ are respectively the result of the first and second roll. Thus, the sample space has $36$ elements, each of which is a pair of integers. Determine the probability of the following events:
+\bit
+\item $A = \left\{(x,y)\in \Omega:x=1\right\}$,
+\item $B = \left\{(x,y)\in \Omega:y\geq 4\right\}$,
+\item $C = \left\{(x,y)\in \Omega:x+y=7\right\}$,
+\item $A \cup B $,
+\item $B \cap C $,
+\item $B^c$.
+\eit
+\end{exercise}
+
+% \begin{solution}
+% %\noi A few advises for such exercise:
+% %\begin{itemize}
+% %\item To determine the probability of an event, count its cells, observe that each cell has probability 1/36, and add them up.
+% %\item Draw the sample space as a table of $6\times 6$ cells that will help you for counting the cells corresponding to the event.
+% %\end{itemize}
+% \begin{itemize} % reformuler (pris de Kohnen
+% \item (a) %Event A covers a vertical column $x = 1$, which contains $6$ cells. So 
+% $P(A) = 6 \times 1/36 = 1/6$.
+% \item (b) %Event B covers three horizontal rows, namely the rows $y = 4$, $y = 5$ and $y = 6$. Together the rows contain $18$ cells, so 
+% $P(B) = 18\times 1/36 = 1/2$.
+% \item (c) %Event C covers the cells $(1, 6); (2, 5); (3, 4); (4,3); (5, 2); (6, 1)$. That is $6$ cells, so 
+% $P(C) = 6 \times 1/ 36 = 1/6$. 
+% %Here it is useful to think how one can find the cells easily. Of course, one could check all 36 cells separately, to see where $x + y = 7$ happens to be true. Much better is this: if $x$ has some value, then what must $y$ be in order for the equation $x + y = 7$ to be true? Indeed, $y$ must be $7-x$, so we need not try any other values for $y$.
+% \item (d) %Event $A \cup B$ is obtained by coloring the one vertical column for A, and the three horizontal rows for $B$, with the same color. We end up coloring 21 cells, so
+% $ P(A\cup B) = 21\times 1/ 36 = 21/36$.
+% \item (e) %Event $B \cap C$ is obtained by coloring only those cells that belong to both B and C; that is the cells $(3, 4), (2, 5)$ and $(1, 6)$. Thus 
+% $P(B \cap C) = 3\times 1/36= 1/12.$
+% \item (f) %Event $B^c$ is the complement of B, so it covers the horizontal rows $y = 1$, $y = 2$ and $y = 3$. Thus 
+% $P(B^c) = 18 \times 1/36 = 1/2$.
+% \end{itemize}
+% \end{solution}
+
+%#################################################################################
+
+\begin{exercise}
+\noi $50\%$ of the adult population in the US has hypertension (high blood pressure). Suppose that a new non-invasive test for diagnosing hypertension has been designed based on using heart rate variability along with blood pressure measurements. The new test will classify $25\%$  of people with hypertension as not having hypertension and $15\%$  of people without hypertension as having hypertension.
+
+\begin{enumerate}
+    \item What is the prevalence of hypertension in the US adult population?
+    \item What is the sensitivity of the test?
+    \item What is the specificity of the test?
+\end{enumerate}
+\end{exercise}
+
+
+% \begin{solution}
+% \noi Let define the events $H:\text{Hypertension}$, $H^c:\text{No Hypertension}$; $T:\text{Test positive}$; $T^c:\text{Test negative}$.\\
+
+% \bit
+% \item the prevalence of hypertension in the US adult population: $P(H) = 0.5$. 
+% \item the sensitivity of the test:  we know that $P(T^c\vert H)=0.25$, hence $P(T\vert H) = 1-P(T^c\vert H)=0.75$.
+
+% \item the specificity of the test: we know that $P(T\vert H^c)=0.15$, hence,  $P(T^c\vert H^c)= 1- P(T\vert H^c) = 0.85$. 
+% \eit
+% \end{solution}
+
+%#################################################################################
+\begin{exercise}
+\noi We analyze a soil sample from a waste dump. With probability $0.4$ we find arsenic. With probability $0.3$, we find the lead. With probability $0.1$ we find both. Note that “finding arsenic” does not mean “finding arsenic only”. If we find arsenic, we may or may not find also lead.
+\begin{enumerate}
+    \item  What is the probability that we find lead but not arsenic?
+    \item What is the probability that we find arsenic but not lead?
+    \item What is the probability that we find at least one of them?
+    \item What is the probability that we find neither?
+\end{enumerate}
+
+\end{exercise}
+
+% \begin{solution}
+% \noi Let us name some events:\\
+% \noi $A = \text{"we find arsenic}"$,\\
+% \noi $L = \text{"we find lead"}$.\\
+
+% \noi Now there are four (mutually exclusive) possibilities of what we may find: both substances
+% $(A \cap L)$, arsenic only $(A \cap L^c)$, lead only $(A^c \cap L)$, or neither $(A^c \cap L^c)$. %It may be useful to draw these as a $2\times 2$ grid, so that A and $A^c$ are the rows, and L and $L^c$ are the columns.
+% From the problem statement, we have $P(A) = 0.40$, $P(L) = 0.30$ and $P(A \cap L) = 0.10$.\\
+% \noi (a) We observe that the event L is the union of two disjoint events $L\cap A$ and $L\cap A^c$. That is, finding lead is equivalently to finding either "lead and arsenic" or "lead but not arsenic”".
+% By the addition rule (e.g. Ross section 3.4),
+% $$P(L) = P(L \cap A) + P(L \cap A^c)$$
+% from which can solve
+% $$P(L \cap A^c) = P(L) - P(L \cap A) = 0.30 -0.10 = 0.20$$
+% \noi (b) In the same way as in the previous item, we observe that
+% $$P(A) = P(A \cap L) + P(A \cap L^c)$$
+% from which can solve
+% $$P(A \cap L) = P(A) - P(A \cap L^c)= 0.4-0.1=0.3$$.
+% \noi (c) This is the union event $A \cup L$. We can do this in many different ways. For example, by
+% the general addition rule,
+% $$P(A \cup L) = P(A) + P(L) - P(A \cap L)= 0.4+0.3-0.1=0.6.$$
+% Or, we may add up the three (mutually exclusive) possibilities “lead only” (0.20 from
+% item a), “arsenic only” (0.30 from item b), and “lead and arsenic” (0.10 given in problem
+% statement), thus $0.2+0.3+0.1=0.6$.
+% \noi (d) Finding neither substance is the complement of finding at least one, so it has the probability
+% $1-0.6=0.4$.
+% \end{solution}
+
+%#################################################################################
+
+\begin{exercise}
+\noi In a certain town there are $100$ taxicabs: one is blue, and $99$ are green. One night, a cab collides with a bicycle, and flees the scene. An eyewitness says that the colliding cab was blue. However, from previous research we know that in similar situations, a blue car is seen as blue with probability $0.9$; and a green car is seen as blue with probability $0.08$.
+\begin{enumerate}
+    \item What is the probability that the colliding cab was indeed blue? 
+    \item Do you think that the driver of the only blue cab in town should be convicted, based on this evidence alone?
+\end{enumerate}
+\end{exercise}
+
+% \begin{solution}
+%  Let us denote
+% \bit
+% \item $T_0 =\text{ "the colliding cab is green"}$,
+% \item $T_1 = \text{"the colliding cab is blue"}$,
+% \item $H_0 = \text{"the witness sees the cab as green"}$,
+% \item $H_1 =\text{ "the witness sees the cab as blue"}$.
+% \eit
+
+% \noi The prior probabilities of the events $T_0$ and $T_1$ (before taking the witness report into account)
+% are $P(T_0) = 0.99$ and $P(T_1) = 0.01$. We also know that $P(H_1 \vert T_0) = 0.08$ and $P(H_1 \vert T_1) = 0.90$
+% Applying the law of total probability,
+% $$P(H_1) = P(H_1 \vert T_0)P(T0) +P(H_1 \vert T_1) P(T1)
+% = 0.08\times 0.99 + 0.90 \times 0.01 = 0.0882$$
+% Thus, according to Bayes’s rule, the posterior probability of $T_1$ (after accounting for the witness
+% report) is
+% $$
+% P(T_1 \vert H_1) =\frac{P(H_1 \vert  T_1) P(T_1)}{ P(H_1) }=\frac{0.9\times 0.1}{0.0882}\approx 0.102.
+% $$
+% From this evidence, it is more probable that the colliding cab was green $(\approx 89.8\%)$ than blue
+% $(\approx 10.2\%)$. Thus, there does not seem to be reason to convict the driver of the blue cab.
+% \end{solution}
+%#################################################################################
+
+
+
+\begin{exercise}
+In a certain place it rains on one third of the days. The local evening newspaper attempts to predict whether or not it will rain the following day. Three quarters of rainy days and three fifths of dry days are correctly predicted by the previous evening’s paper. Given that this evening’s paper predicts rain, what is the probability that it will actually rain tomorrow?
+\end{exercise}
+
+% \begin{solution}
+% \noindent Let define the following events: $R=$"rain", $R^c=$"dry", $P=$"rain predicted", $P^c=$"dry predicted". 
+
+% By direct application of the Bayes theorem, we get:
+
+% $$
+% P(R\vert P) = \frac{P(R)P(P\vert R)}{P(R)P(P\vert R) + P(R^c)P(P\vert R^c)} = \frac{1/3\times 3/4}{1/3\times 3/4 + 2/3\times 2/5}=15/31 =  0.4839.
+% $$
+% \end{solution}
+
+
+%##########################################
+
+\begin{exercise}
+A game consists in picking a dice in a box among 10 similar-looking dices. All dices look the same but there are actually three types of dice.
+\begin{itemize}
+    \item  There are 6 dices of type A which are fair dices with $P(6  \vert A) = 1/6$ (where $Pr(6 \vert A)$ is the probability of getting a 6 in a throw of a type A die).
+\item There are 2 dices of type B which are biassed with $P(6  \vert B) = 0.8$.
+\item There are 2 dices of type C which are biassed with $P(6  \vert C) = 0.04$.
+
+\noi Find the conditional probability that the picked dice is of type B given that it gives a 6.
+\end{itemize}
+
+\end{exercise}
+
+% \begin{solution}
+% \noi Let define the event $Y=\text{"obtain a 6"}$. From the text, we know that
+
+% \beas
+% && P(Y\vert A)=1/6\\
+% && P(Y\vert B)=0.8\\
+% && P(Y\vert C)=0.04\\
+% && P(A)=6/10;\ P(B)=2/10;\ P(C)=2/10\\
+% \eeas
+
+% \beas
+% P(Y)=P(Y\vert A)P(A)+P(Y\vert B)P(B)+P(Y\vert C)P(C)= 0.268
+% \eeas
+
+% \beas
+% P(B\vert Y)=\frac{0.16}{0.268}=0.597.
+% \eeas
+% \end{solution}
+\end{document}
+
+%#################################################################################
+
+\begin{exercise}
+In an experiment on extra-sensory perception (ESP) a person, $A$, sits in a sealed room and points at one of four cards, each of which shows a different picture. In another sealed room a  second person, $B$, attempts to select, from an identical set of four cards, the card at which $A$ is pointing. This experiment is repeated ten times and the correct card is selected four times. Suppose that we consider three possible states of nature, as follows.
+
+\noi \textbf{State 1:} There is no ESP and, whichever card A chooses, B is equally likely to select anyone of the four cards. That is, subject B has a probability of $0.25$ of selecting the correct card. Before the experiment, we give this state a probability of $0.7$.\\
+
+\noi \textbf{State 2:} Subject $B$ has a probability of $0.50$ of selecting the correct card. Before the experiment, we give this state a probability of 0.2.\\
+
+\noi \textbf{State 3:} Subject $B$ has a probability of $0.75$ of selecting the correct card. Before the experiment, we give this state a probability of $0.1$. Assume that, given the true state of nature, the ten trials can be considered to be independent. \\
+
+\noi Find our probabilities after the experiment for the three possible states of nature. Can you think of a reason, apart from ESP, why the probability of selecting the correct card might be greater than $0.25$?
+
+\end{exercise}
+
+\begin{solution}
+.
+\end{solution}
+
+
+
+
+
+
+\end{document}

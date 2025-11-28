@@ -1,0 +1,330 @@
+\documentclass{beamer}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{
+  \usetheme{Frankfurt}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+%\usepackage[backend=biber,style=authoryear]{biblatex}
+%\usepackage{minted}
+%\usemintedstyle{friendly} % You can also try: xcode, tango, borland, vs, autumn
+\usepackage[dvipsnames]{xcolor}
+\usepackage{listings}
+\definecolor{Gray}{gray}{0.5}
+\definecolor{DarkGreen}{rgb}{0,0.4,0}
+
+\lstset{
+  language=R,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{Blue},
+  commentstyle=\color{Gray},
+  stringstyle=\color{DarkGreen},
+  numbers=left,
+  numberstyle=\tiny\color{Gray},
+  breaklines=true,
+  showstringspaces=false
+}
+
+
+\title[Your Short Title]{Introduction to probability and statistics}
+\author{Master in Cognitive Science 2025-2026}
+\institute{Lecture 5 } % Change this later with 4
+\date{November, 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+\begin{frame}{Objectives}
+\begin{itemize}
+\item Introduction to the basics of statistical inference (\textbf{frequentist} paradigm).
+\item Definition of an estimator.
+\item Important results: Law of Large Number (LLN) and the Central Limit Theorem (CLT). 
+%\item Confidence interval
+\end{itemize}
+\textbf{Readings}: Estimation Doc\_fr4 file in Ametice. Kass et al Chapters 7.1, 7.2, 8.1
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Basics of statistical inference}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\textbf{Definition}: 
+\begin{itemize}
+\item A population $\mathcal{P}$ is a large (sometimes infinite) set of individuals, objects, statistical units.
+\item A sample is a subset $\mathcal{E}$ of a population. It needs to be representative of the population:
+\begin{itemize}
+\item the sample size $n$ should be large if possible.
+\item individuals randomly sampled from the population $\mathcal{P}$.
+\end{itemize}
+\end{itemize} 
+
+\end{frame}
+
+%%%%%
+
+\begin{frame}
+
+\textbf{Link between probability and statistics}
+
+\begin{itemize}
+\item \textit{probability}: $\mathcal{P}$ is known, we compute the probability of observing some events in $\mathcal{E}$.
+\item \textit{statistics}: $\mathcal{P}$ is unknown, we observe $\mathcal{E}$ and try to deduce properties of $\mathcal{P}$.
+\end{itemize}
+
+
+
+\begin{block}{Example}
+Consider the following example: the population characteristic is the height of a person. Let $X$ be a quantitative random variable representing a person's height. We can describe it as $$X\sim \mathcal{N}(\mu=175,\sigma^2=15^2)$$.
+\end{block}
+
+\end{frame}
+
+%%%%%%
+
+\begin{frame}[fragile]
+\begin{lstlisting}
+set.seed(123)
+Pop = round(rnorm(10000, mean=175, sd = 15))
+\end{lstlisting}
+
+We pick randomly a sample $(x_1,\ldots,x_n)$ from the population. 
+\begin{lstlisting}
+n = 10
+samp1 <- sample(Pop)
+samp1
+\end{lstlisting}
+In this  case 
+\begin{lstlisting}
+## [1] 184 162 175 176 183 146 180 168 189 167
+\end{lstlisting}
+so if we compute the mean of \textit{samp1}, we get an \textit{estimation} of the mean of the population 
+\begin{lstlisting}
+mean(samp1)
+## [1] 173
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Descriptive statistics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+Consider the dataset \textit{bfi} from the package \textit{psychTools}. We are interested on the age of the $2800$ participants.
+
+\begin{lstlisting}
+library(psychTools)
+data(bfi)
+help(bfi)
+ages <- bfi$age
+\end{lstlisting}
+
+\end{frame}
+
+% %%%%%%%
+\begin{frame}[fragile]{Visualization}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/histD.png}
+    \caption{Histogram and Density of Age}
+\end{figure}
+\end{frame}
+
+% %%%%%%%
+\begin{frame}[fragile]{Visualization of age against other variables}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/histAgeGender.png}
+    \caption{Comparison of age distributions between male and female}
+\end{figure}
+
+\end{frame}
+
+% %%%%%%%
+\begin{frame}[fragile]{Measures of location}
+We could construct graphical description for our observed sample and/or compute numerical summaries: 
+\begin{itemize}
+\item \textbf{The empirical mean}: $\overline{x} = \frac{1}{n}\sum\limits_{i=1}^n x_i$.
+\item \textbf{Median}: we order our data $x_{(1)} \leq x_{(2)}\leq \cdots\leq x_{(n)}$ then take the value $x_{(\frac{n}{2})}$.
+\end{itemize}
+
+\begin{lstlisting}
+mean(ages)
+## [1] 28.78214
+
+median(ages)
+## [1] 26
+\end{lstlisting}
+
+
+\end{frame}
+%%%%%%%
+
+\begin{frame}[fragile]{Boxplot}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/ageBoxplot.png}
+    \caption{Boxplot of Participant Ages}
+\end{figure}
+\end{frame}
+
+%%%%%%%
+\begin{frame}[fragile]{Measure of spread}
+We use the variance to measure how far the data values lie from the mean.
+\textbf{The empirical variance}: $s^2 = \frac{1}{n} \sum\limits_{i=1}^n (x_i-\overline{x})^2$.
+
+Often, we use the corrected empirical variance $$s_c = \frac{1}{n-1}\sum\limits_{i=1}^n(x_i-\overline{x})^2.$$
+
+\begin{lstlisting}
+var(ages)
+## [1] 123.8225
+
+sd(ages)
+## [1] 11.12755
+\end{lstlisting}
+
+\end{frame}
+%%%%%%%
+
+\begin{frame}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/NormalDist.png}
+    \caption{Normal Distributions with Different Variances}
+\end{figure}
+\end{frame}
+
+%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estimator}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\begin{itemize}
+\item We want to model the number of spike train of neuron 1 of \textit{CAL1V} dataset in time interval $5$ and $6$.
+Suppose the number is a random variable $X\sim \mathcal{P}(\theta)$ for some $\theta$.
+
+\item In this example there are 20 trials, so we model the number of spikes of each trial $i$ by $X_i\sim\mathcal{P}(\theta)$.
+
+\item The trials are independent, so $X_1,X_2,\cdots, X_{20}$ are \textbf{independent}. Also they have the \textbf{same} distribution; in this case we say that they are \textbf{identically distributed}.
+
+\item We write shortly $X_1,X_2\cdots,X_{20}$ are \textbf{i.i.d} to say that the random variables are independent and identically distributed.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+% picture of the spikes 
+\begin{enumerate}
+\item From this data we get a realization of $X_1,X_2,\cdots,X_{20}$, which we denote by $x_1,x_2,\cdots,x_{20}$.
+\begin{lstlisting}
+[1] 51 39 40 70 68 36 44 61 46 61 63 62 49 44 44 51 64 55 47 58
+\end{lstlisting}
+
+
+\item An \textbf{estimator} of the parameter $\theta$ is given by $$T(X_1,X_2,\cdots,X_{20}) = \frac{X_1+X_2+\cdots+X_{20}}{20}.$$
+
+
+\item An estimation of the parameter $\theta$ is given by $$\hat{\theta} = \frac{x_1 + x_2 + \cdots + x_{20}}{20} = 52.65$$
+\end{enumerate}
+
+
+
+
+
+\end{frame}
+
+\begin{frame}{Estimator}
+Let $X_1,\cdots,X_n$ be an i.i.d. It forms a random sample.
+
+The observed sample $x_1,\cdots,x_n$ is viewed as a realization of the random sample.
+
+Suppose the distribution of $X_i$ depends on a parameter $\theta$.
+
+\begin{block}{Definition}
+An estimator of a population characteristic $\theta$ is a 'function' $T_n := T(X_1,\cdots,X_n)$ which estimates $\theta$.
+\end{block}
+We need quality criteria to distinguish estimators. We say that $T_n$ is 
+\begin{itemize}
+\item unbiased if $E[T_n] = \theta$,
+\item efficient if $\text{Var}(T_n)$ is small,
+\item consistent if $E[T_n]=\theta$ and $\text{Var}(T_n) \to 0, n\to \infty$.
+\item The mean squared error of $T_n$ is defined as $R(T_n,\theta) = E[(T_n-\theta)^2]$.
+\end{itemize}
+\end{frame}
+
+%%%% 
+\begin{frame}{Example}
+Consider the estimator $T_{20}$ of the average number of spikes.
+\begin{block}{Exercise}
+\begin{itemize}
+\item Check that the estimator $T_{20}$ is unbiased.
+\item Compute the variance of $T_{20}$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%
+
+\begin{frame}{Bias variance decomposition}
+Let $T_n$ be an estimator of a parameter $\theta$, then we have 
+\begin{align*}
+R(T_n,\theta) &= E\left[(T_n-\theta)^2\right] \\
+&= E\left[\left(T_n - E[T_n] + E[T_n] - \theta\right)^2\right]\\
+&= E\left[\left(T_n - E[T_n]\right)^2\right] + \left(E[T_n] - \theta\right)\\
+&= \text{Var}(T_n) + \text{Bias}^2(T_n).
+\end{align*}
+We say that we decomposed the mean squared error into the variance of the estimator and the square of its bias.
+\end{frame}
+
+%%%
+\begin{frame}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/BiasVar.png}
+    \caption{Bias–Variance Trade-off}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{LLN and CLT}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Large Law Number}
+\begin{block}{Theorem}
+Let $X_1,\ldots,X_n$ be i.i.d r.v. (independent identically distributed random variables) with $\mathbb{E}X_i=\mu$ and $Var(X_i)=\sigma^2$. Then, 
+
+$$
+\bar{X}_n:= \frac{X_1+X_2+\cdots + X_n}{n}\rightarrow\mu,\ \text{as } n\rightarrow +\infty.
+$$
+We say the random mean converges to $\mu$ (this holds in a sense that we won't discuss here).
+\end{block}
+  
+
+\end{frame}
+
+\begin{frame}{Central Limit Theorem}
+\begin{block}{Theorem}
+Let $X_1, \ldots, X_n$ be i.i.d.\ random variables with $\mathbb{E}[X_i] = \mu$ and $\mathrm{Var}(X_i) = \sigma^2 < \infty$. Then, as $n \to \infty$,
+\[
+\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} \rightarrow \mathcal{N}(0,1).
+\]
+That is, the standardized sample mean converges to the standard normal law.
+\end{block}
+\end{frame}
+
+
+\end{document}

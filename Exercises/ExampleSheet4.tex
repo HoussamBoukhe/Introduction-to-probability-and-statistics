@@ -1,0 +1,197 @@
+\documentclass[11pt,a4paper]{article}
+
+\textwidth=16cm
+\textheight=24.5cm
+\oddsidemargin0cm
+\topmargin-1cm
+\parindent0cm
+\parskip0ex
+%\linespread{1.2}
+
+\usepackage{natbib}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\setlength{\bibsep}{0pt}
+\newcommand{\biblist}{
+\bibliographystyle{apalike}
+\bibliography{BiblioRA}
+}
+%\usepackage{exsheets}
+\newcommand{\Prob}{\mathrm{P}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cor}{\mathrm{Corr}}
+
+
+\newcommand{\bds}{\boldsymbol}
+
+\usepackage{times}
+
+\usepackage[english]{babel} %on pourrait ausi utiliser [english] \usepackage{latexSym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[dvips]{graphicx}
+\usepackage{subfigure}
+\usepackage{epsfig}
+\usepackage{overpic}
+\usepackage{rotating}
+\usepackage{here}
+\usepackage{txfonts}
+\usepackage{color}
+\usepackage{url}
+
+%\usepackage{geometry} %destroys the textwidth commands
+\usepackage{tikz}
+
+
+\newtheorem{proof}{proof}
+%\newcommand{\bpre}{\begin{proof}}
+%\newcommand{\epre}{\end{proof}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{remark}{\bf Remark}[section]
+\newtheorem{algorithm}{\bf Algorithm}[section]
+\newtheorem{program}{Program}[section]
+\newtheorem{note}{\bf Note}
+\newenvironment{example1}[1][ ]{\begin{example}[#1]\em}{\qed\end{example}}
+\newenvironment{remark1}[1][ ]{\begin{remark}[#1]\em}{\end{remark}}
+
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\eqd}{\stackrel{d}{=}}
+\newcommand{\law}{\mathcal{L}}
+\newcommand{\rmd}{\mathrm{d}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\1}{\boldsymbol{1}}
+
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\XX}{\mathbb{X}}
+\newcommand{\mbN}{\mathbb{N}}
+\newcommand{\mbZ}{\mathbb{Z}}
+
+\newcommand{\dx}{\mathrm{d}x}
+\newcommand{\argmin}{\mathop{\mathrm{arg\,min}}}
+
+\newcommand{\dto}{\rightsquigarrow}
+\newcommand{\pto}{\stackrel{\mathrm{P}}{\to}}
+
+\newcommand{\bX}{\overline{X}}
+\newcommand{\bXX}{\overline{X^2}}
+\newcommand{\bY}{\overline{X}}
+\newcommand{\bYY}{\overline{X^2}}
+\newcommand{\bXY}{\overline{XY}}
+
+
+\def\Prodi{\mathop{{\lower 3pt\hbox{\epsfxsize=15pt\epsfbox{pi.ps}}}}}
+\def\prodi{\mathop{{\lower 1pt\hbox{\epsfxsize=8pt\epsfbox{pi.ps}}}}}
+\input epsf.sty
+\newcommand{\CAL}[1]{\mathcal{#1}}
+\newcommand{\si}{\mbox{$\sigma$}}
+\newcommand{\epsi}{\mbox{$\varepsilon$}}
+\newcommand{\sisq}{\mbox{$\sigma^2$}}
+\newcommand{\al}{\mbox{$\alpha$}}
+\newcommand{\be}{\mbox{$\beta$}}
+\newcommand{\vfi}{\mbox{$\varphi$}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\p}{\mbox{$\mathcal{P}$}}
+\newcommand{\Q}{\mbox{$\mathcal{Q}$}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beas}{\begin{eqnarray*}}
+\newcommand{\eeas}{\end{eqnarray*}}
+\newcommand{\ind}{1\hspace{-2.5mm}{1}}
+\newcommand{\BB}[1]{\mathbb{#1}}
+\newcommand{\noi}{\noindent}
+
+\def\tcr{\textcolor{red}}
+
+\usepackage[printsolution=false]{exercises}
+
+\begin{document}
+
+\begin{center}
+\huge Probability and statistics.   \\
+\large Master in Cognitive Science. Academic year 2025-2026.\\
+\large Example sheet 4.
+\end{center}
+
+\begin{exercise}
+\textbf{Law of large numbers (LLN)}
+
+\noi Scientists study the effect of fructose on mouse weights. They are equipped with a weighing machine $A$. The weight measurements suffer from a small error due to the lack of precision of the machine. 
+
+\begin{enumerate}
+\item Model the errors with the random variable $Y_A$ that follows a standard normal distribution. In other words, for a mouse of exact weight $m$, the weighing machine returns a measure $m+Y_A$. Compute the probability that a mouse weight will be overestimated by $0.5g$.
+
+\item The machine A is now broken, you use another one, says the weighing machine B. The error measure with this machine now modeled as a random variable $Y_B$ that follows a Normal distribution $\mathcal{N}(0,22)$. What is the probability of overestimating the weight of a mouse by $0.5g$?
+
+\item Scientists want to improve the precision of the weighting machine $B$. They propose to repeat the measures taken on each mouse. How many measurements they should take to make sure to have a precision at least as good as that of the machine $A$.
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\textbf{Comparison of two estimators of a proportion.}
+
+\noi  Consider an $n$-sample $\mathcal{X}=(X_1,\ldots,X_n)$ of i.i.d r.v. with Bernoulli distribution $Be(\theta)$. For estimating $\theta$ you can use $\hat{\theta}_1=\bar{X}$ or also $\hat{\theta}_2 = \frac{Y+\sqrt{n}/2}{n+\sqrt{n}},\ \text{where } Y=\sum_{i=1}^{n}X_i$. 
+
+\begin{enumerate}
+    \item Compute the expectation, variance and mean-square error of these two estimators. 
+    \item Interpret these results.
+    \item Build a computer experiment in R to check your previous findings.
+\end{enumerate}
+\end{exercise}
+
+
+\begin{exercise}
+\textbf{Central limit theorem (CLT)}
+
+\noi 
+Consider a simple model of neuronal firing where each neuron in a large population emits a spike (1) or not (0) in a short time window.  
+Let $X_i$ denote the spike of neuron $i$:
+\[
+X_i = 
+\begin{cases}
+1 & \text{if neuron $i$ fires in the interval,}\\
+0 & \text{otherwise,}
+\end{cases}
+\]
+with $\Prob(X_i = 1) = p$ and $\Prob(X_i = 0) = 1-p$.
+Assume the neurons fire independently.
+
+\begin{enumerate}
+\item Compute $\E[X_i]$ and $\Var(X_i)$.
+
+\item Let $S_n = \sum_{i=1}^{n} X_i$ be the total number of spikes in the population.  
+Express the standardized variable
+\[
+Z_n = \frac{S_n - np}{\sqrt{np(1-p)}}
+\]
+and explain what the Central Limit Theorem tells us about its distribution as $n \to \infty$.
+
+\item Suppose $p = 0.1$ and $n = 100$.  
+Approximate the probability that at least 15 neurons fire simultaneously:
+\[
+\Prob(S_n \ge 15)
+\]
+using the normal approximation given by the CLT.
+
+\item[4*.] Discuss the relevance of this result in interpreting mean population activity in neural recordings.  
+Why is the CLT useful when modeling aggregate signals such as local field potentials or fMRI BOLD responses?
+\end{enumerate}
+\end{exercise}
+
+\end{document}
+
+

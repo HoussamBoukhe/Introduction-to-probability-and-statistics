@@ -1,0 +1,194 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \usecolortheme{beaver}
+  \usefonttheme{serif}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+} 
+
+\usepackage[english]{babel}
+\usepackage{dsfont}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{multirow}
+\usepackage{listings}
+\definecolor{Gray}{gray}{0.5}
+\definecolor{DarkGreen}{rgb}{0,0.4,0}
+
+\lstset{
+  language=R,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{Blue},
+  commentstyle=\color{Gray},
+  stringstyle=\color{DarkGreen},
+  numbers=left,
+  numberstyle=\tiny\color{Gray},
+  breaklines=true,
+  showstringspaces=false
+}
+
+\title[Your Short Title]{Introduction to Probability and Statistics}
+\author{Master in Cognitive Science 2025--2026}
+\institute{Lecture 6}
+\date{November 2025}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Objectives}
+\begin{itemize}
+\item Introduction to hypothesis testing.
+\item Definition of Type I and Type II errors, the p-value, and the power of a test.
+\item Examples: testing the equality of two means (\texttt{t.test}), testing the equality of variances, testing the normality of a population, Wilcoxon test, \ldots
+\end{itemize}
+\textbf{Readings}: Kass et al. (2014), Chapters 10.3.1--10.3.5. \\
+\emph{Tests statistiques d’hypothèses}, Doc\_fr5 file in Ametice.
+\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{Testing principle}
+\begin{itemize}
+\item In a court, a defendant $D$ is either innocent ($H_0$) or guilty ($H_1$).
+\item The defendant is assumed to be innocent ($H_0$).
+\item The judge decides, based on the evidence, either that $D$ is guilty (rejecting $H_0$) or that the evidence is insufficient to convict $D$ ($H_0$ is not rejected due to lack of evidence).
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%
+
+\begin{frame}{Risks of a test}
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.4}
+
+\resizebox{0.9\textwidth}{!}{%  % Scales to 90% of text width
+\begin{tabular}{c|c|c|c}
+ & & \multicolumn{2}{c}{\textbf{True State}} \\ \cline{3-4}
+ & & \textbf{$H_0$ is true} & \textbf{$H_1$ is true} \\ \hline
+\multirow{2}{*}{\textbf{Decision}} 
+ & $H_0$ & Correct conclusion & Type II error \\ \cline{2-4}
+ & $H_1$ & Type I error & Correct conclusion (Power) \\ \hline
+\end{tabular}
+}
+\end{table}
+
+\begin{enumerate}
+
+\item Confidence level $\alpha$: probability of committing a Type I error.
+    \begin{itemize}
+        \item $\alpha = \mathds{P}(\text{"Reject } H_0 \text{"}| H_0).$
+        \item In practice, we often take $\alpha = 0.05$.
+        \item Depending on how much risk we want to avoid, smaller values of $\alpha$ can be used (e.g., $0.01$).
+    \end{itemize}
+
+\item Power of a test: probability of correctly rejecting the null hypothesis $H_0$.
+    \begin{itemize}
+        \item Probability of committing type II error $\beta = \mathds{P}(\text{"Do not reject } H_0 \text{"} | H_1).$
+        \item The power of the test is $1-\beta$.
+    \end{itemize}
+
+\end{enumerate}
+
+
+
+\end{frame}
+
+
+
+%%%%%%%%%%
+
+\begin{frame}{Decision rule}
+\begin{block}{Definition}
+A decision variable is a random variable $T$ that \emph{behaves differently}
+depending on whether $H_0$ or $H_1$ is true; that is, the distribution of $T$
+will differ according to whether $H_0$ is true or $H_1$ is true. Moreover, the
+distribution of $T$ must be completely known at least under $H_0$.
+\end{block}
+
+\textbf{Example:}
+\begin{itemize}
+\item Assume we want to check whether the mean of a normal population is equal to 0.  
+      Suppose we have an i.i.d.\ sample $X_1, X_2, \ldots, X_n \sim \mathcal{N}(\mu, \sigma^2)$.
+\item We want to test  
+      $H_0: \mu = 0 \quad \text{vs.} \quad H_1: \mu \neq 0.$
+\item Consider the statistic  
+      $T_n = \bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i.$
+\item Under the null hypothesis,  
+      $T_n \sim \mathcal{N}\!\left(0, \frac{\sigma^2}{n}\right).$
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%
+\begin{frame}{p-value}
+\begin{itemize}
+\item Given observations $x_1, x_2, \ldots, x_n$, we compute the statistic 
+      $T_n(x_1, \ldots, x_n) = t_n$.
+\item The p-value is 
+      \[
+      p_v = \mathds{P}\left(|T_n| \ge |t_n| \,\big|\, H_0\right).
+      \]
+\item If the p-value is smaller than the confidence level $\alpha$, this is evidence against $H_0$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Effect Size}
+
+\begin{block}{Remark}
+Null Hypothesis Significance Testing (NHST) is widely debated, especially regarding how the p-value is interpreted.  
+A small p-value does not imply that $H_1$ is more likely; it only indicates evidence against $H_0$.  
+Likewise, failing to reject $H_0$ does not validate it; with a sufficiently large sample, even negligible differences may lead to rejection.
+
+This motivates reporting an effect size alongside the p-value.  
+In the two-sample case, a common measure is \emph{Cohen’s $d$}:
+\[
+d = \frac{\bar{x}_1 - \bar{x}_2}{\hat{\sigma}},
+\]
+where $\hat{\sigma}$ is the estimated standard deviation.
+\end{block}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%
+
+\begin{frame}{Confidence interval}
+Suppose we want to estimate the mean $\mu_0$ of some population.
+\begin{block}{Definition}
+A confidence interval for a parameter $\mu_0$ is an interval-valued statistic 
+$(L(X_1,\ldots,X_n),\, U(X_1,\ldots,X_n))$ such that
+\[
+\mathds{P}\big( L \le \mu_0 \le U \big) = 1 - \alpha,
+\]
+where $1-\alpha$ is the confidence level.  
+It provides a range of plausible values for $\mu_0$ based on the data.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Examples of tests}
+See R follow-along 4.
+
+\begin{itemize}
+\item Testing equality of means: \texttt{t.test}.
+\item Wilcoxon test: \texttt{wilcox.test}.
+\item Testing equality of variances: \texttt{var.test}.
+\item Normality test: \texttt{shapiro.test}.
+\item Permutation test.
+\item $\cdots$
+\end{itemize}
+
+\end{frame}
+
+
+
+\end{document}
